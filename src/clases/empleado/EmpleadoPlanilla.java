@@ -23,12 +23,33 @@ public class EmpleadoPlanilla extends Empleado {
     }
 
     @Override
-    public void registrarDatos() {
+public void registrarDatos() {
+    try {
         super.registrarDatos();
 
-        salarioMensual = Double.parseDouble(JOptionPane.showInputDialog("Inngrese el salario mensual"));
-        porcentajeAdicionalPorHoraExtra = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el porcentaje adicional por hora extra"));
+        String salarioInput = JOptionPane.showInputDialog("Ingrese el salario mensual");
+        if (salarioInput == null || salarioInput.trim().isEmpty()) {
+            throw new IllegalArgumentException("El salario mensual no puede estar vacío.");
+        }
+        salarioMensual = Double.parseDouble(salarioInput.trim());
+
+        String porcentajeInput = JOptionPane.showInputDialog("Ingrese el porcentaje adicional por hora extra");
+        if (porcentajeInput == null || porcentajeInput.trim().isEmpty()) {
+            throw new IllegalArgumentException("El porcentaje adicional no puede estar vacío.");
+        }
+        porcentajeAdicionalPorHoraExtra = Double.parseDouble(porcentajeInput.trim());
+
+        System.out.println("Empleado por planilla registrado correctamente.");
+
+    } catch (NumberFormatException e) {
+        System.out.println("Error: ingrese valores numéricos válidos para salario o porcentaje.");
+    } catch (IllegalArgumentException e) {
+        System.out.println("Error: " + e.getMessage());
+    } catch (NullPointerException e) {
+        System.out.println("Error: ingreso cancelado por el usuario.");
     }
+}
+
 
     @Override
     public void imprimirDatosPersona(String datos) {

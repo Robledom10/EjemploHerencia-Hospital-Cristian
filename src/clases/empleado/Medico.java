@@ -23,10 +23,31 @@ public class Medico extends EmpleadoPlanilla {
     }
 
     @Override
-    public void registrarDatos() {
+public void registrarDatos() {
+    try {
         super.registrarDatos();
 
-        especialidad = JOptionPane.showInputDialog("Ingrese su especialiidad");
-        numeroDeConsultorio = Integer.parseInt(JOptionPane.showInputDialog("Numero consultorio"));
+        especialidad = JOptionPane.showInputDialog("Ingrese su especialidad");
+        if (especialidad == null || especialidad.trim().isEmpty()) {
+            throw new IllegalArgumentException("La especialidad no puede estar vacía.");
+        }
+
+        String consultorioInput = JOptionPane.showInputDialog("Ingrese el número de consultorio");
+        if (consultorioInput == null || consultorioInput.trim().isEmpty()) {
+            throw new IllegalArgumentException("El número de consultorio no puede estar vacío.");
+        }
+
+        numeroDeConsultorio = Integer.parseInt(consultorioInput.trim());
+
+        System.out.println("Médico registrado correctamente.");
+
+    } catch (NumberFormatException e) {
+        System.out.println("Error: el número de consultorio debe ser un valor numérico.");
+    } catch (IllegalArgumentException e) {
+        System.out.println("Error: " + e.getMessage());
+    } catch (NullPointerException e) {
+        System.out.println("Error: ingreso cancelado por el usuario.");
     }
+}
+
 }

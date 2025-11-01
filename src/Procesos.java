@@ -25,7 +25,7 @@ public class Procesos {
         menu += "salir \n\n";
         menu += "Ingrese una opcion\n";
 
-        int opcion = 0;
+        int opcion;
 
         do {
             opcion = Integer.parseInt(JOptionPane.showInputDialog(menu));

@@ -24,10 +24,26 @@ public class EmpleadoEventual extends Empleado {
 
     @Override
     public void registrarDatos() {
-        super.registrarDatos();
+        try {
+            super.registrarDatos();
 
-        honariosPorHora = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el salario Mensual"));
-        fechaTerminoContrato = JOptionPane.showInputDialog("Ingrese fecha de  termino de contrato (dd/mm/aa)");
+            String horasInput = JOptionPane.showInputDialog("Ingrese el salario mensual");
+            if (horasInput == null || horasInput.trim().isEmpty()) {
+                throw new IllegalArgumentException("El salario mensual no puede estar vacio");
+            }
+            honariosPorHora = Integer.parseInt(horasInput);
+
+            fechaTerminoContrato = JOptionPane.showInputDialog("Ingrese la fecha de termino de contrato (dd/mm/aa)");
+            if (fechaTerminoContrato == null || fechaTerminoContrato.trim().isEmpty()) {
+                throw new IllegalArgumentException("La  fecha de termino de contrato no puede estar vacia");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Error: el salario debe ser un número válido.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("Error: ingreso cancelado por el usuario.");
+        }
     }
 
     @Override

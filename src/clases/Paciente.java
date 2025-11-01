@@ -43,27 +43,42 @@ public class Paciente extends Persona {
 
     @Override
     public void registrarDatos() {
-        super.registrarDatos();
+        try {
+            super.registrarDatos();
 
-        listaMedicamentosAlergico = new ArrayList<String>();
-        numeroHistoriaClinica = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de historia clinica"));
-        sexo = JOptionPane.showInputDialog("Ingrese en sexo");
-        grupoSanguineo = JOptionPane.showInputDialog("Ingrese el grupo sanguineo");
+            listaMedicamentosAlergico = new ArrayList<>();
+            String historiaInput = JOptionPane.showInputDialog("Ingrese el número de historia clínica");
+            if (historiaInput == null || historiaInput.trim().isEmpty()) {
+                throw new IllegalArgumentException("El número de historia clínica no puede estar vacío.");
+            }
+            numeroHistoriaClinica = Integer.parseInt(historiaInput);
+            sexo = JOptionPane.showInputDialog("Ingrese en sexo");
+            grupoSanguineo = JOptionPane.showInputDialog("Ingrese el grupo sanguineo");
 
-        String pregunta = JOptionPane.showInputDialog("Es alergico a algun medicamento? Ingrese si o no");
+            String pregunta = JOptionPane.showInputDialog("Es alergico a algun medicamento? Ingrese si o no");
 
-        if (pregunta.equalsIgnoreCase("si")) {
-            String medicamento = "";
-            String continuar = "";
+            if (pregunta != null && pregunta.equalsIgnoreCase("si")) {
+                String medicamento;
+                String continuar;
 
-            do {
-                medicamento = JOptionPane.showInputDialog("Ingrese el nombre del medicamento al  que es alergico");
-                listaMedicamentosAlergico.add(medicamento);
+                do {
+                    medicamento = JOptionPane.showInputDialog("Ingrese el nombre del medicamento al que es alérgico");
+                    if (medicamento != null && !medicamento.trim().isEmpty()) {
+                        listaMedicamentosAlergico.add(medicamento.trim());
+                    }
 
-                continuar = JOptionPane.showInputDialog("Ingrese si, si desea continuar");
+                    continuar = JOptionPane.showInputDialog("Ingrese 'si' si desea continuar");
+                } while (continuar != null && continuar.equalsIgnoreCase("si"));
+            }
 
-            } while (continuar.equalsIgnoreCase("si"));
+        } catch (NumberFormatException e) {
+            System.out.println("Error: el número de historia clínica debe ser un valor numérico.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("Error inesperado: " + e.getMessage());
         }
+
     }
 
     @Override
@@ -74,13 +89,13 @@ public class Paciente extends Persona {
         datos += "Sexo: " + sexo + "\n";
         datos += "Grupo sanguineo: " + grupoSanguineo + "\n";
 
-        if(listaMedicamentosAlergico.size()>0) {
+        if (!listaMedicamentosAlergico.isEmpty()) {
             datos += "Lista de medicamentos a los que es alergico\n";
 
-            for(int i = 0; i < listaMedicamentosAlergico.size(); i++) {
+            for (int i = 0; i < listaMedicamentosAlergico.size(); i++) {
                 datos += "\t" + listaMedicamentosAlergico.get(i) + "\n";
             }
-        }else {
+        } else {
             System.out.println("El paciente, no es alergico a ningun medicamento");
         }
 

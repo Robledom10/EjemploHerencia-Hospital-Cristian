@@ -21,12 +21,24 @@ public class Persona {
     }
 
     public void registrarDatos() {
-        numeroDeDNI = JOptionPane.showInputDialog("Ingrese el numero de documento");
-        nombre = JOptionPane.showInputDialog("Ingrese el nombre");
-        apellido = JOptionPane.showInputDialog("Ingrese el apellido");
-        fechaNacimiento = JOptionPane.showInputDialog("Ingrese la fecha de nacimiento");
-        direccion = JOptionPane.showInputDialog("Ingrese la dirección");
-        ciudadDeProcedencia = JOptionPane.showInputDialog("Ingrese la ciudad de procedencia");
+        try {
+            numeroDeDNI = JOptionPane.showInputDialog("Ingrese el número de documento");
+            if (numeroDeDNI == null || numeroDeDNI.trim().isEmpty()) {
+                throw new IllegalArgumentException("El número de documento no puede estar vacío.");
+            }
+
+            nombre = JOptionPane.showInputDialog("Ingrese el nombre");
+            apellido = JOptionPane.showInputDialog("Ingrese el apellido");
+            fechaNacimiento = JOptionPane.showInputDialog("Ingrese la fecha de nacimiento (DD/MM/AAAA)");
+            direccion = JOptionPane.showInputDialog("Ingrese la dirección");
+            ciudadDeProcedencia = JOptionPane.showInputDialog("Ingrese la ciudad de procedencia");
+
+            System.out.println("Datos registrados correctamente.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (NullPointerException e) {
+            System.out.println("No se ingresó ningún dato.");
+        }
     }
 
     public String getNumeroDeDNI() {
